@@ -74,9 +74,13 @@ displayScreen.blit(whiteTurn, (520, 300))
 ########################################################################
 
 def checkWinner(tileCheck):
-    noWhite = True
-    noBlack = True
-    noBlanks = True
+    noWhite = True                          #return 0 if no winner yet
+    noBlack = True                          #return 1 if white won
+    noBlanks = True                         #return 2 if black won
+                                            #return 3 if TIE
+    whiteCount = 0
+    blackCount = 0
+    
     for number in tileCheck:
         if number == 1:
             noWhite = False
@@ -84,7 +88,25 @@ def checkWinner(tileCheck):
             noBlack = False
         elif number == 0:
             noBlanks = False
-    
+    if noBlanks == True:
+        for num in tileCheck:
+            if num == 1:
+                whiteCount += 1
+            elif num == 2:
+                blackCount += 1
+        if whiteCount > blackCount:
+            return 1
+        elif blackCount > whiteCount:
+            return 2
+        elif blackCount == whiteCount:
+            return 3
+    else:
+        if noWhite == True and noBlack == False:
+            return 2
+        elif noBlack == True and noWhite == False:
+            return 1
+        else:
+            return 0
 
 def checkPlacement(tileCheck, clickedTileNumber, playerWhite, integer):
     c = clickedTileNumber
@@ -328,8 +350,24 @@ while not exitGame:
     displayScreen.blit(buttonRender, (605, 445))
     pygame.display.update()
     clockClass.tick(60) # limit to 60 fps
+    winner = checkWinner(tileCheck)
+    if winner != 0:
+        displayScreen.fill((207, 213, 167), (520, 300, 260, 200))
+        
+        if winner == 1:
+            whiteWinFont = pygame.font.SysFont("Times New Roman", 50)
+            whiteWinRender = whiteWinFont.render("White Wins!", False, (255, 255, 255))
+            displayScreen.blit(whiteWinRender, (520, 300))
+        elif winner == 2:
+            blackWinFont = pygame.font.SysFont("Times New Roman", 50)
+            blackWinRender = blackWinFont.render("Black Wins!", False, (0, 0, 0))
+            displayScreen.blit(blackWinRender, (520, 300))
+        elif winner == 3:
+            tieFont = pygame.font.SysFont("Times New Roman", 50)
+            tieRender = tieFont.render("Tie Game!", False, (0, 0, 0))
+            displayScreen.blit(tieRender, (520, 300))
 
-
+    
 
 pygame.quit()   # de-initialize pygame
 quit()          
