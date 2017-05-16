@@ -1,8 +1,13 @@
 #OTHELLO - Jacob Kim
+#NO event listeners
+#Manually listening to events every loop. No OS
+
 
 import pygame
 pygame.init()   # initialize pygame
 
+
+# initializing text views
 pygame.font.init()
 titleFont = pygame.font.SysFont("Times New Roman", 50)
 titleRender = titleFont.render("Othello", False, (0, 0, 0))
@@ -10,6 +15,7 @@ whiteTurn = titleFont.render("White's turn", False, (255, 255, 255))
 blackTurn = titleFont.render("Black's turn", False, (0, 0, 0))
 buttonFont = pygame.font.SysFont("Times New Roman", 20)
 buttonRender = buttonFont.render("Skip Turn", False, (0, 0, 0))
+
 
 displayScreen = pygame.display.set_mode((800, 600))     # object of screen displayed
 
@@ -47,7 +53,7 @@ def displayTiles(tilePos, tileCheck, displayScreen):
         else:
             pass
         
-####################### Initial Board ##################################     
+####################### Board Initialization ###########################     
 displayScreen.fill(boardColour)
 boardColours = True
 counterVar = 0
@@ -311,11 +317,14 @@ def flipTiles(tileCheck, clickedTileNumber, PlayerWhite, validTileList):
 exitGame = False
 PlayerWhite = True
 
+#MAIN LOOP - analogous to the OS calling onCreate for android development
+#Manually listen to events every loop
+
 while not exitGame:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT:               #if x is pressed
             exitGame = True
-        if event.type == pygame.MOUSEBUTTONUP:
+        if event.type == pygame.MOUSEBUTTONUP:      #if mouse = clicked
             mousePos = pygame.mouse.get_pos()
             if mousePos[0] > 10 and mousePos[0] < 490 and mousePos[1] > 10 and mousePos[1] < 490:
                 tempX = (mousePos[0]-10)/60
