@@ -1,7 +1,4 @@
 #OTHELLO - Jacob Kim
-#NO event listeners
-#Manually listening to events every loop. No OS
-
 
 import pygame
 pygame.init()   # initialize pygame
